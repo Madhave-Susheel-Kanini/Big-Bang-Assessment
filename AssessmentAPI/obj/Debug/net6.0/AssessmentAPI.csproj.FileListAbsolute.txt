@@ -90,3 +90,5 @@ C:\Users\madha\source\repos\AssessmentAPI\AssessmentAPI\obj\Debug\net6.0\refint\
 C:\Users\madha\source\repos\AssessmentAPI\AssessmentAPI\obj\Debug\net6.0\AssessmentAPI.pdb
 C:\Users\madha\source\repos\AssessmentAPI\AssessmentAPI\obj\Debug\net6.0\AssessmentAPI.genruntimeconfig.cache
 C:\Users\madha\source\repos\AssessmentAPI\AssessmentAPI\obj\Debug\net6.0\ref\AssessmentAPI.dll
+C:\Users\madha\source\repos\AssessmentAPI\AssessmentAPI\bin\Debug\net6.0\HotelManagement.dll
+C:\Users\madha\source\repos\AssessmentAPI\AssessmentAPI\bin\Debug\net6.0\HotelManagement.pdb

@@ -1328,6 +1328,16 @@
             "rid": "win"
           }
         }
+      },
+      "HotelManagement/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/HotelManagement.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/HotelManagement.dll": {}
+        }
       }
     }
   },
@@ -3896,10 +3906,16 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "HotelManagement/1.0.0": {
+      "type": "project",
+      "path": "../HotelManagement/HotelManagement.csproj",
+      "msbuildProject": "../HotelManagement/HotelManagement.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "HotelManagement >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.16",
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson >= 6.0.16",
       "Microsoft.EntityFrameworkCore.SqlServer >= 7.0.5",
@@ -3934,7 +3950,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\madha\\source\\repos\\AssessmentAPI\\HotelManagement\\HotelManagement.csproj": {
+              "projectPath": "C:\\Users\\madha\\source\\repos\\AssessmentAPI\\HotelManagement\\HotelManagement.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

@@ -1,0 +1,12 @@
+C:\Users\madha\source\repos\AssessmentAPI\HotelManagement\bin\Debug\net6.0\HotelManagement.deps.json
+C:\Users\madha\source\repos\AssessmentAPI\HotelManagement\bin\Debug\net6.0\HotelManagement.dll
+C:\Users\madha\source\repos\AssessmentAPI\HotelManagement\bin\Debug\net6.0\HotelManagement.pdb
+C:\Users\madha\source\repos\AssessmentAPI\HotelManagement\obj\Debug\net6.0\HotelManagement.csproj.AssemblyReference.cache
+C:\Users\madha\source\repos\AssessmentAPI\HotelManagement\obj\Debug\net6.0\HotelManagement.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\madha\source\repos\AssessmentAPI\HotelManagement\obj\Debug\net6.0\HotelManagement.AssemblyInfoInputs.cache
+C:\Users\madha\source\repos\AssessmentAPI\HotelManagement\obj\Debug\net6.0\HotelManagement.AssemblyInfo.cs
+C:\Users\madha\source\repos\AssessmentAPI\HotelManagement\obj\Debug\net6.0\HotelManagement.csproj.CoreCompileInputs.cache
+C:\Users\madha\source\repos\AssessmentAPI\HotelManagement\obj\Debug\net6.0\HotelManagement.dll
+C:\Users\madha\source\repos\AssessmentAPI\HotelManagement\obj\Debug\net6.0\refint\HotelManagement.dll
+C:\Users\madha\source\repos\AssessmentAPI\HotelManagement\obj\Debug\net6.0\HotelManagement.pdb
+C:\Users\madha\source\repos\AssessmentAPI\HotelManagement\obj\Debug\net6.0\ref\HotelManagement.dll
