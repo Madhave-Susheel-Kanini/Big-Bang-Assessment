@@ -81,6 +81,9 @@ namespace AssessmentAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HotelId"));
 
+                    b.Property<string>("HotelAmenities")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("HotelCreatedAt")
                         .HasColumnType("nvarchar(max)");
 

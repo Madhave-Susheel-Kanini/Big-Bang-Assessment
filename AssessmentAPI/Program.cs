@@ -1,5 +1,6 @@
 using AssessmentAPI.Models;
 using AssessmentAPI.Repositories;
+using HotelManagement.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,11 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 });
 
 builder.Services.AddScoped<IHotel, HotelRepository>();
+builder.Services.AddScoped<IRoom, RoomRepository>();
+builder.Services.AddScoped<IEmployee, EmployeeRepository>();
+builder.Services.AddScoped<IUser, UserRepository>();
+builder.Services.AddScoped<ICustomer, CustomerRepository>();
+builder.Services.AddScoped<IBooking, BookingRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

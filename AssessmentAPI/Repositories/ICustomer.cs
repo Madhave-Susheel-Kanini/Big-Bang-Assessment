@@ -9,6 +9,8 @@ namespace AssessmentAPI.Repositories
         public Customer PostCustomer(Customer customer);
         public Customer PutCustomer(int CustomerId, Customer customer);
         public Customer DeleteCustomer(int CustomerId);
+        public IEnumerable<Hotel> FilterHotel(string amenities);
+        public int GetRoomCountByHotel(int RoomId, int HotelId);
 
     }
 }

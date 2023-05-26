@@ -9,7 +9,7 @@ namespace AssessmentAPI.Repositories
         public Employee PostEmployee(Employee employee);
         public Employee PutEmployee(int EmployeeId, Employee employee);
         public Employee DeleteEmployee(int EmployeeId);
-        public int GetRoomCountByRoomIdAndHotelId(int RoomId, int HotelId);
+  
         
     }
 }

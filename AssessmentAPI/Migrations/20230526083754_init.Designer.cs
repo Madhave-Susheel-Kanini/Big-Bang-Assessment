@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AssessmentAPI.Migrations
 {
     [DbContext(typeof(HotelContext))]
-    [Migration("20230526070347_init")]
+    [Migration("20230526083754_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -83,6 +83,9 @@ namespace AssessmentAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HotelId"));
+
+                    b.Property<string>("HotelAmenities")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HotelCreatedAt")
                         .HasColumnType("nvarchar(max)");

@@ -20,6 +20,7 @@ namespace AssessmentAPI.Migrations
                     HotelName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HotelDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HotelLocation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HotelAmenities = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HotelCreatedAt = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -34,8 +35,8 @@ namespace AssessmentAPI.Migrations
                     UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserPassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserPassword = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserCreatedAt = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
