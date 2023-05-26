@@ -4,5 +4,6 @@ namespace AssessmentAPI.Repositories
 {
     public class EmployeeRepository
     {
+
     }
 }

@@ -1,4 +1,5 @@
 using AssessmentAPI.Models;
+using AssessmentAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 });
 
+builder.Services.AddScoped<IHotel, HotelRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

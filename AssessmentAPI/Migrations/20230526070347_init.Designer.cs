@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AssessmentAPI.Migrations
 {
     [DbContext(typeof(HotelContext))]
-    [Migration("20230526055859_init")]
+    [Migration("20230526070347_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -153,6 +153,43 @@ namespace AssessmentAPI.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("AssessmentAPI.Models.Booking", b =>
+                {
+                    b.Property<int>("BookingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingId"));
+
+                    b.Property<DateTime>("BookedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CheckInDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CheckOut")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("HotelId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RoomId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BookingId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("HotelId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("Bookings");
+                });
+
             modelBuilder.Entity("AssessmentAPI.Model.Customer", b =>
                 {
                     b.HasOne("AssessmentAPI.Model.Hotel", "Hotel")
@@ -178,6 +215,27 @@ namespace AssessmentAPI.Migrations
                         .HasForeignKey("HotelId");
 
                     b.Navigation("Hotel");
+                });
+
+            modelBuilder.Entity("AssessmentAPI.Models.Booking", b =>
+                {
+                    b.HasOne("AssessmentAPI.Model.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId");
+
+                    b.HasOne("AssessmentAPI.Model.Hotel", "Hotel")
+                        .WithMany()
+                        .HasForeignKey("HotelId");
+
+                    b.HasOne("AssessmentAPI.Model.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Hotel");
+
+                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("AssessmentAPI.Model.Hotel", b =>
