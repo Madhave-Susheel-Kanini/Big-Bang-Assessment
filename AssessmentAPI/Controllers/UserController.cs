@@ -1,7 +1,9 @@
 ﻿using AssessmentAPI.Model;
+using AssessmentAPI.Models;
 using AssessmentAPI.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AssessmentAPI.Controllers
 {
@@ -9,55 +11,105 @@ namespace AssessmentAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUser _userRepository;
+        private readonly HotelContext _context;
 
-        public UserController(IUser userRepository)
+        public UserController(HotelContext context)
         {
-            _userRepository = userRepository;
+            _context = context;
         }
 
         [HttpGet]
-        public IActionResult GetUsers()
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            var users = _userRepository.GetUser();
-            return Ok(users);
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+            return await _context.Users.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetUserById(int id)
+        public async Task<ActionResult<User>> GetUser(int id)
         {
-            var user = _userRepository.GetUserById(id);
-            if (user == null)
+            if (_context.Users == null)
+            {
                 return NotFound();
+            }
+            var user = await _context.Users.FindAsync(id);
 
-            return Ok(user);
-        }
+            if (user == null)
+            {
+                return NotFound();
+            }
 
-        [HttpPost]
-        public IActionResult PostUser(User user)
-        {
-            var newUser = _userRepository.PostUser(user);
-            return CreatedAtAction(nameof(GetUserById), new { id = newUser.UserId }, newUser);
+            return user;
         }
 
         [HttpPut("{id}")]
-        public IActionResult PutUser(int id, User user)
+        public async Task<IActionResult> PutUser(int id, User user)
         {
-            var updatedUser = _userRepository.PutUser(id, user);
-            if (updatedUser == null)
-                return NotFound();
+            if (id != user.UserId)
+            {
+                return BadRequest();
+            }
 
-            return Ok(updatedUser);
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<User>> PostUser(User user)
+        {
+            if (_context.Users == null)
+            {
+                return Problem("Entity set 'ProCatContext.Users'  is null.");
+            }
+            _context.Users.Add(user);
+            user.UserCreatedAt = DateTime.UtcNow.ToString();
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
-            var deletedUser = _userRepository.DeleteUser(id);
-            if (deletedUser == null)
+            if (_context.Users == null)
+            {
                 return NotFound();
+            }
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
 
-            return Ok(deletedUser);
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool UserExists(int id)
+        {
+            return (_context.Users?.Any(e => e.UserId == id)).GetValueOrDefault();
         }
     }
 }

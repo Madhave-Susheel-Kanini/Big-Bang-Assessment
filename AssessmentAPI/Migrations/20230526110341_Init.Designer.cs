@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AssessmentAPI.Migrations
 {
     [DbContext(typeof(HotelContext))]
-    [Migration("20230526083754_init")]
-    partial class init
+    [Migration("20230526110341_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -124,6 +124,9 @@ namespace AssessmentAPI.Migrations
                     b.Property<string>("RoomName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RoomPrice")
+                        .HasColumnType("int");
+
                     b.HasKey("RoomId");
 
                     b.HasIndex("HotelId");
@@ -164,14 +167,14 @@ namespace AssessmentAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingId"));
 
-                    b.Property<DateTime>("BookedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("BookedDate")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CheckInDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("CheckInDate")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CheckOut")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("CheckOut")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int");

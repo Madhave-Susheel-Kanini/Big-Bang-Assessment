@@ -26,17 +26,41 @@ namespace HotelManagement.Repositories
 
         public Booking PostBooking(Booking booking)
         {
-            var b = _context.Hotels.Find(booking.Hotel.HotelId);
-            booking.Hotel = b;
-            var room = _context.Rooms.Find(booking.Room.RoomId);
-            booking.Room = room;
+            try
+            {
+                var b = _context.Hotels.Find(booking.Hotel.HotelId);
+                booking.Hotel = b;
+                booking.BookedDate = DateTime.UtcNow.ToString();
+                var customer = _context.Customers.Find(booking.Customer.CustomerId);
+                booking.Customer = customer;
+                var room = _context.Rooms.Find(booking.Room.RoomId);
+                if (room != null)
+                {
+                    if (room.RoomCount > 0)
+                    {
+                        room.RoomCount--; 
+                        _context.Entry(room).State = EntityState.Modified; 
 
-            var customer = _context.Customers.Find(booking.Customer.CustomerId);
-            booking.Customer = customer;
+                        booking.Room = room;
+                    }
+                    else
+                    {
+                        throw new Exception("No available rooms for booking.");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Invalid room ID.");
+                }
 
-            _context.Add(booking);
-            _context.SaveChanges();
-            return booking;
+                _context.Add(booking);
+                _context.SaveChanges();
+                return booking;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to create booking.", ex);
+            }
         }
 
         public Booking PutBooking(int BookingId, Booking booking)
@@ -55,13 +79,34 @@ namespace HotelManagement.Repositories
 
         public Booking DeleteBooking(int BookingId)
         {
-            var booking = _context.Bookings.Find(BookingId);
-            if (booking != null)
+            try
             {
-                _context.Bookings.Remove(booking);
-                _context.SaveChanges();
+                var booking = _context.Bookings.Include(booking => booking.Room).FirstOrDefault(booking => booking.BookingId == BookingId);
+
+                if (booking != null)
+                {
+                    var room = booking.Room;
+
+                    if (room != null)
+                    {
+                        room.RoomCount++;
+                        _context.Entry(room).State = EntityState.Modified;
+                    }
+
+                    _context.Bookings.Remove(booking);
+                    _context.SaveChanges();
+
+                    return booking;
+                }
+                else
+                {
+                    throw new Exception("Booking not found.");
+                }
             }
-            return booking;
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to delete booking.", ex);
+            }
         }
     }
 }

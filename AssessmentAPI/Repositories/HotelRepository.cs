@@ -15,44 +15,84 @@ namespace AssessmentAPI.Repositories
 
         public IEnumerable<Hotel> GetHotel()
         {
-            return _context.Hotels.ToList();
+            try
+            {
+                return _context.Hotels.ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while retrieving hotels.");
+                return new List<Hotel>();
+            }
         }
 
         public Hotel GetHotelById(int HotelId)
         {
-            return _context.Hotels.Find(HotelId);
+            try
+            {
+                return _context.Hotels.Find(HotelId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while retrieving hotel with ID {HotelId}.");
+                return null;
+            }
         }
 
         public Hotel PostHotel(Hotel hotel)
         {
-            _context.Hotels.Add(hotel);
-            _context.SaveChanges();
-            return hotel;
+            try
+            {
+                hotel.HotelCreatedAt = DateTime.UtcNow.ToString();
+                _context.Hotels.Add(hotel);
+                _context.SaveChanges();
+                return hotel;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while adding a new hotel.");
+                return null;
+            }
         }
 
         public Hotel PutHotel(int HotelId, Hotel hotel)
         {
-            var existingHotel = _context.Hotels.Find(HotelId);
-            if (existingHotel != null)
+            try
             {
-                existingHotel.HotelName = hotel.HotelName;
-                existingHotel.HotelDescription = hotel.HotelDescription;
-                existingHotel.HotelLocation = hotel.HotelLocation;
-
-                _context.SaveChanges();
+                var existingHotel = _context.Hotels.Find(HotelId);
+                if (existingHotel != null)
+                {
+                    existingHotel.HotelName = hotel.HotelName;
+                    existingHotel.HotelDescription = hotel.HotelDescription;
+                    existingHotel.HotelLocation = hotel.HotelLocation;
+                    _context.SaveChanges();
+                }
+                return existingHotel;
             }
-            return existingHotel;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while updating hotel with ID {HotelId}.");
+                return null;
+            }
         }
 
         public Hotel DeleteHotel(int HotelId)
         {
-            var hotel = _context.Hotels.Find(HotelId);
-            if (hotel != null)
+            try
             {
-                _context.Hotels.Remove(hotel);
-                _context.SaveChanges();
+                var hotel = _context.Hotels.Find(HotelId);
+                if (hotel != null)
+                {
+                    _context.Hotels.Remove(hotel);
+                    _context.SaveChanges();
+                }
+                return hotel;
             }
-            return hotel;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while deleting hotel with ID {HotelId}.");
+                return null;
+            }
         }
     }
 }

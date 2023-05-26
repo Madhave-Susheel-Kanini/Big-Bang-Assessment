@@ -1,10 +1,12 @@
 ﻿using AssessmentAPI.Model;
 using AssessmentAPI.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AssessmentAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerController : ControllerBase
@@ -70,6 +72,11 @@ namespace AssessmentAPI.Controllers
         public int GetRoomCountByRoomIdAndHotelId(int RoomId, int HotelId)
         {
             return _customerRepository.GetRoomCountByHotel(RoomId, HotelId);
+        }
+        [HttpGet("rooms/price-range")]
+        public IEnumerable<Room> GetRoomsByPriceRange(int minPrice, int maxPrice)
+        {
+            return _customerRepository.GetRoomsByPriceRange(minPrice, maxPrice);
         }
     }
 }

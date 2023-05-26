@@ -1,10 +1,12 @@
 ﻿using AssessmentAPI.Model;
 using AssessmentAPI.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AssessmentAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeeController : ControllerBase
@@ -37,6 +39,7 @@ namespace AssessmentAPI.Controllers
         public IActionResult PostEmployee(Employee employee)
         {
             var newEmployee = _employeeRepository.PostEmployee(employee);
+            employee.EmployeeCreatedAt = DateTime.UtcNow.ToString();
             return CreatedAtAction(nameof(GetEmployeeById), new { id = newEmployee.EmployeeId }, newEmployee);
         }
 

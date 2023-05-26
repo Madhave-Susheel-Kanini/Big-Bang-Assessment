@@ -1,11 +1,13 @@
 ﻿using AssessmentAPI.Model;
 using AssessmentAPI.Models;
 using AssessmentAPI.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AssessmentAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BookingController : ControllerBase

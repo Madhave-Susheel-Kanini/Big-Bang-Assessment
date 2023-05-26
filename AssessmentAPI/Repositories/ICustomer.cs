@@ -11,6 +11,7 @@ namespace AssessmentAPI.Repositories
         public Customer DeleteCustomer(int CustomerId);
         public IEnumerable<Hotel> FilterHotel(string amenities);
         public int GetRoomCountByHotel(int RoomId, int HotelId);
+        public IEnumerable<Room> GetRoomsByPriceRange(int minPrice, int maxPrice);
 
     }
 }

@@ -1,10 +1,12 @@
 ﻿using AssessmentAPI.Model;
 using AssessmentAPI.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AssessmentAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class RoomController : ControllerBase
@@ -37,6 +39,7 @@ namespace AssessmentAPI.Controllers
         public IActionResult PostRoom(Room room)
         {
             var newRoom = _roomRepository.PostRoom(room);
+            room.RoomCreatedAt = DateTime.UtcNow.ToString();
             return CreatedAtAction(nameof(GetRoomById), new { id = newRoom.RoomId }, newRoom);
         }
 

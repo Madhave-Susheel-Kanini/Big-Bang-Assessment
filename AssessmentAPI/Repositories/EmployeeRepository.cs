@@ -15,43 +15,82 @@ namespace AssessmentAPI.Repositories
 
         public IEnumerable<Employee> GetEmployees()
         {
-            return _context.Employees.ToList();
+            try
+            {
+                return _context.Employees.ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while retrieving employees.");
+                return new List<Employee>();
+            }
         }
 
         public Employee GetEmployeesById(int EmployeeId)
         {
-            return _context.Employees.Find(EmployeeId);
+            try
+            {
+                return _context.Employees.Find(EmployeeId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while retrieving employee with ID {EmployeeId}.");
+                return null;
+            }
         }
 
         public Employee PostEmployee(Employee employee)
         {
-            var emp = _context.Hotels.Find(employee.Hotel.HotelId);
-            employee.Hotel = emp;
-            _context.Employees.Add(employee);
-            _context.SaveChanges();
-            return employee;
+            try
+            {
+                var emp = _context.Hotels.Find(employee.Hotel.HotelId);
+                employee.Hotel = emp;
+                employee.EmployeeCreatedAt = DateTime.UtcNow.ToString();
+                _context.Employees.Add(employee);
+                _context.SaveChanges();
+                return employee;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while adding a new employee.");
+                return null;
+            }
         }
 
         public Employee PutEmployee(int EmployeeId, Employee employee)
         {
-            var emp = _context.Hotels.Find(employee.Hotel.HotelId);
-            employee.Hotel = emp;
-            _context.Entry(employee).State = EntityState.Modified;
-            _context.SaveChangesAsync();
-            return employee;
+            try
+            {
+                var emp = _context.Hotels.Find(employee.Hotel.HotelId);
+                employee.Hotel = emp;
+                _context.Entry(employee).State = EntityState.Modified;
+                _context.SaveChangesAsync();
+                return employee;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while updating employee with ID {EmployeeId}.");
+                return null;
+            }
         }
 
         public Employee DeleteEmployee(int EmployeeId)
         {
-            var employee = _context.Employees.Find(EmployeeId);
-            if (employee != null)
+            try
             {
-                _context.Employees.Remove(employee);
-                _context.SaveChanges();
+                var employee = _context.Employees.Find(EmployeeId);
+                if (employee != null)
+                {
+                    _context.Employees.Remove(employee);
+                    _context.SaveChanges();
+                }
+                return employee;
             }
-            return employee;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while deleting employee with ID {EmployeeId}.");
+                return null;
+            }
         }
-
-      
     }
 }

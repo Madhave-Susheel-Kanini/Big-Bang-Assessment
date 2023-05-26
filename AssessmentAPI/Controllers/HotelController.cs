@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AssessmentAPI.Model;
 using AssessmentAPI.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AssessmentAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/hotels")]
     public class HotelController : ControllerBase
