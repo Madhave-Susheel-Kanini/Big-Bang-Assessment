@@ -28,33 +28,47 @@ namespace HotelManagement.Repositories
         {
             try
             {
-                var b = _context.Hotels.Find(booking.Hotel.HotelId);
-                booking.Hotel = b;
                 booking.BookedDate = DateTime.UtcNow.ToString();
-                var customer = _context.Customers.Find(booking.Customer.CustomerId);
-                booking.Customer = customer;
-                var room = _context.Rooms.Find(booking.Room.RoomId);
-                if (room != null)
-                {
-                    if (room.RoomCount > 0)
-                    {
-                        room.RoomCount--; 
-                        _context.Entry(room).State = EntityState.Modified; 
 
-                        booking.Room = room;
-                    }
-                    else
-                    {
-                        throw new Exception("No available rooms for booking.");
-                    }
+                var hotel = _context.Hotels.Find(booking.Hotel.HotelId);
+                if (hotel == null)
+                {
+                    throw new Exception("Invalid hotel ID.");
+                }
+
+                var customer = _context.Customers
+                    .Include(c => c.Hotel)
+                    .FirstOrDefault(c => c.CustomerId == booking.Customer.CustomerId && c.Hotel.HotelId == hotel.HotelId);
+                if (customer == null)
+                {
+                    throw new Exception("Customer is not associated with the specified hotel.");
+                }
+
+                var room = _context.Rooms
+                    .Include(r => r.Hotel)
+                    .FirstOrDefault(r => r.RoomId == booking.Room.RoomId && r.Hotel.HotelId == hotel.HotelId);
+                if (room == null)
+                {
+                    throw new Exception("Room is not associated with the specified hotel.");
+                }
+
+                if (room.RoomCount > 0)
+                {
+                    room.RoomCount--;
+                    _context.Entry(room).State = EntityState.Modified;
+                    booking.Room = room;
                 }
                 else
                 {
-                    throw new Exception("Invalid room ID.");
+                    throw new Exception("No available rooms for booking.");
                 }
+
+                booking.Hotel = hotel;
+                booking.Customer = customer;
 
                 _context.Add(booking);
                 _context.SaveChanges();
+
                 return booking;
             }
             catch (Exception ex)
@@ -62,7 +76,6 @@ namespace HotelManagement.Repositories
                 throw new Exception("Failed to create booking.", ex);
             }
         }
-
         public Booking PutBooking(int BookingId, Booking booking)
         {
             var existingBooking = _context.Bookings.Find(BookingId);
