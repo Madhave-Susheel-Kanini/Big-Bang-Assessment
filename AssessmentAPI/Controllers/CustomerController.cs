@@ -69,7 +69,7 @@ namespace AssessmentAPI.Controllers
         }
 
         [HttpGet("roomcount")]
-        public int GetRoomCountByRoomIdAndHotelId(int RoomId, int HotelId)
+        public string GetRoomCountByRoomIdAndHotelId(int RoomId, int HotelId)
         {
             return _customerRepository.GetRoomCountByHotel(RoomId, HotelId);
         }

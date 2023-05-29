@@ -1,12 +1,15 @@
-﻿using AssessmentAPI.Model;
+﻿using System;
+using System.IO;
+using AssessmentAPI.Model;
 using AssessmentAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AssessmentAPI.Repositories
 {
-    public class HotelRepository:IHotel
+    public class HotelRepository : IHotel
     {
         private readonly HotelContext _context;
+        private readonly string logFilePath = "error.log"; 
 
         public HotelRepository(HotelContext context)
         {
@@ -17,12 +20,12 @@ namespace AssessmentAPI.Repositories
         {
             try
             {
-                return _context.Hotels.ToList();
+                return _context.Hotels.Include(x => x.Rooms).ToList();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("An error occurred while retrieving hotels.");
-                return new List<Hotel>();
+                LogException(ex);
+                throw new Exception("An error occurred while retrieving hotels. Please see the log file for details.");
             }
         }
 
@@ -34,8 +37,8 @@ namespace AssessmentAPI.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while retrieving hotel with ID {HotelId}.");
-                return null;
+                LogException(ex);
+                throw new Exception($"An error occurred while retrieving hotel with ID {HotelId}. Please see the log file for details.");
             }
         }
 
@@ -50,8 +53,8 @@ namespace AssessmentAPI.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine("An error occurred while adding a new hotel.");
-                return null;
+                LogException(ex);
+                throw new Exception("An error occurred while adding a new hotel. Please see the log file for details.");
             }
         }
 
@@ -71,8 +74,8 @@ namespace AssessmentAPI.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while updating hotel with ID {HotelId}.");
-                return null;
+                LogException(ex);
+                throw new Exception($"An error occurred while updating hotel with ID {HotelId}. Please see the log file for details.");
             }
         }
 
@@ -90,8 +93,26 @@ namespace AssessmentAPI.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while deleting hotel with ID {HotelId}.");
-                return null;
+                LogException(ex);
+                throw new Exception($"An error occurred while deleting hotel with ID {HotelId}. Please see the log file for details.");
+            }
+        }
+
+        private void LogException(Exception ex)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(logFilePath, true))
+                {
+                    writer.WriteLine($"Exception occurred at {DateTime.UtcNow}:");
+                    writer.WriteLine($"Message: {ex.Message}");
+                    writer.WriteLine($"StackTrace: {ex.StackTrace}");
+                    writer.WriteLine();
+                }
+            }
+            catch
+            {
+                throw new Exception($"An error occurred while creating log.");
             }
         }
     }

@@ -22,8 +22,7 @@ namespace HotelManagement.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine("An error occurred while retrieving rooms.");
-                return Enumerable.Empty<Room>();
+                throw new Exception("An error occurred while retrieving rooms.", ex);
             }
         }
 
@@ -35,8 +34,7 @@ namespace HotelManagement.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while retrieving room with ID {RoomId}.");
-                return null;
+                throw new Exception($"An error occurred while retrieving room with ID {RoomId}.", ex);
             }
         }
 
@@ -53,8 +51,7 @@ namespace HotelManagement.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine("An error occurred while adding a new room.");
-                return null;
+                throw new Exception("An error occurred while adding a new room.", ex);
             }
         }
 
@@ -70,8 +67,7 @@ namespace HotelManagement.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while updating room with ID {RoomId}.");
-                return null;
+                throw new Exception($"An error occurred while updating room with ID {RoomId}.", ex);
             }
         }
 
@@ -89,9 +85,9 @@ namespace HotelManagement.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while deleting room with ID {RoomId}.");
-                return null;
+                throw new Exception($"An error occurred while deleting room with ID {RoomId}.", ex);
             }
         }
+
     }
 }

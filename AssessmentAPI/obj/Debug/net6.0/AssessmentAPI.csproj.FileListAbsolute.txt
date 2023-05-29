@@ -92,3 +92,10 @@ C:\Users\madha\source\repos\AssessmentAPI\AssessmentAPI\obj\Debug\net6.0\Assessm
 C:\Users\madha\source\repos\AssessmentAPI\AssessmentAPI\obj\Debug\net6.0\ref\AssessmentAPI.dll
 C:\Users\madha\source\repos\AssessmentAPI\AssessmentAPI\bin\Debug\net6.0\HotelManagement.dll
 C:\Users\madha\source\repos\AssessmentAPI\AssessmentAPI\bin\Debug\net6.0\HotelManagement.pdb
+C:\Users\madha\source\repos\AssessmentAPI\AssessmentAPI\bin\Debug\net6.0\ClosedXML.dll
+C:\Users\madha\source\repos\AssessmentAPI\AssessmentAPI\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+C:\Users\madha\source\repos\AssessmentAPI\AssessmentAPI\bin\Debug\net6.0\ExcelNumberFormat.dll
+C:\Users\madha\source\repos\AssessmentAPI\AssessmentAPI\bin\Debug\net6.0\Irony.dll
+C:\Users\madha\source\repos\AssessmentAPI\AssessmentAPI\bin\Debug\net6.0\SixLabors.Fonts.dll
+C:\Users\madha\source\repos\AssessmentAPI\AssessmentAPI\bin\Debug\net6.0\System.IO.Packaging.dll
+C:\Users\madha\source\repos\AssessmentAPI\AssessmentAPI\bin\Debug\net6.0\XLParser.dll

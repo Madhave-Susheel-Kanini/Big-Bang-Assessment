@@ -41,7 +41,7 @@ namespace HotelManagement.Repositories
                     .FirstOrDefault(c => c.CustomerId == booking.Customer.CustomerId && c.Hotel.HotelId == hotel.HotelId);
                 if (customer == null)
                 {
-                    throw new Exception("Customer is not associated with the specified hotel.");
+                    throw new Exception($"Customer is not associated with the specified hotel.");
                 }
 
                 var room = _context.Rooms

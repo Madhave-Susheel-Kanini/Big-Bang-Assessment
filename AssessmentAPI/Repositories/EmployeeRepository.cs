@@ -21,8 +21,7 @@ namespace AssessmentAPI.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine("An error occurred while retrieving employees.");
-                return new List<Employee>();
+                throw new Exception("An error occurred while retrieving employees.", ex);
             }
         }
 
@@ -34,8 +33,7 @@ namespace AssessmentAPI.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while retrieving employee with ID {EmployeeId}.");
-                return null;
+                throw new Exception($"An error occurred while retrieving employee with ID {EmployeeId}.", ex);
             }
         }
 
@@ -52,8 +50,7 @@ namespace AssessmentAPI.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine("An error occurred while adding a new employee.");
-                return null;
+                throw new Exception("An error occurred while adding a new employee.", ex);
             }
         }
 
@@ -69,8 +66,7 @@ namespace AssessmentAPI.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while updating employee with ID {EmployeeId}.");
-                return null;
+                throw new Exception($"An error occurred while updating employee with ID {EmployeeId}.", ex);
             }
         }
 
@@ -88,9 +84,9 @@ namespace AssessmentAPI.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while deleting employee with ID {EmployeeId}.");
-                return null;
+                throw new Exception($"An error occurred while deleting employee with ID {EmployeeId}.", ex);
             }
         }
+
     }
 }

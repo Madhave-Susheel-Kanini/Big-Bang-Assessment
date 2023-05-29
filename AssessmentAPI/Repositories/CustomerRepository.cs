@@ -1,6 +1,10 @@
 ﻿using AssessmentAPI.Model;
 using AssessmentAPI.Models;
 using AssessmentAPI.Repositories;
+using ClosedXML.Excel;
+using System;
+using System.IO;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelManagement.Repositories
@@ -8,6 +12,7 @@ namespace HotelManagement.Repositories
     public class CustomerRepository : ICustomer
     {
         private readonly HotelContext _context;
+        private readonly string logFilePath = "success.xlsx";
 
         public CustomerRepository(HotelContext context)
         {
@@ -105,6 +110,7 @@ namespace HotelManagement.Repositories
                 {
                     filteredHotels = filteredHotels.Where(h => h.HotelAmenities.Contains(amenities));
                 }
+
                 return filteredHotels.ToList();
             }
             catch (Exception ex)
@@ -114,7 +120,7 @@ namespace HotelManagement.Repositories
             }
         }
 
-        public int GetRoomCountByHotel(int RoomId, int HotelId)
+        public string GetRoomCountByHotel(int RoomId, int HotelId)
         {
             try
             {
@@ -123,13 +129,14 @@ namespace HotelManagement.Repositories
                              where room.RoomId == RoomId && hotel.HotelId == HotelId
                              select room.RoomCount).FirstOrDefault();
 
-                return count;
+                return "Rooms Available are : " + count;
             }
             catch (Exception ex)
             {
                 throw new Exception("Failed to get room count by RoomId and HotelId.", ex);
             }
         }
+
         public IEnumerable<Room> GetRoomsByPriceRange(int minPrice, int maxPrice)
         {
             try
@@ -139,11 +146,46 @@ namespace HotelManagement.Repositories
                     .Where(r => r.RoomPrice >= minPrice && r.RoomPrice <= maxPrice)
                     .ToList();
 
+                LogMessage("Rooms Available:", rooms);
                 return rooms;
             }
             catch (Exception ex)
             {
                 throw new Exception("Failed to retrieve rooms by price range.", ex);
+            }
+        }
+
+        private void LogMessage(string header, IEnumerable<Room> rooms)
+        {
+            try
+            {
+                using (var workbook = new XLWorkbook())
+                {
+                    var worksheet = workbook.Worksheets.Add("Log");
+                    var currentRow = 1;
+
+                    worksheet.Cell(currentRow, 1).Value = header;
+                    worksheet.Cell(currentRow, 1).Style.Font.Bold = true;
+                    currentRow++;
+
+                    foreach (var room in rooms)
+                    {
+                        worksheet.Cell(currentRow, 1).Value = "Room ID:";
+                        worksheet.Cell(currentRow, 2).Value = room.RoomId;
+                        worksheet.Cell(currentRow + 1, 1).Value = "Hotel ID:";
+                        worksheet.Cell(currentRow + 1, 2).Value = room.Hotel?.HotelId.ToString() ?? "N/A";
+                        worksheet.Cell(currentRow + 2, 1).Value = "Price:";
+                        worksheet.Cell(currentRow + 2, 2).Value = room.RoomPrice.ToString() ?? "N/A";
+
+                        currentRow += 4;
+                    }
+
+                    workbook.SaveAs(logFilePath);
+                }
+            }
+            catch
+            {
+                throw new Exception("Cannot create log");
             }
         }
     }
